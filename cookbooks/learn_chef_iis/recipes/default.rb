@@ -1,15 +1,13 @@
-#
 # Cookbook:: learn_chef_iis
 # Recipe:: default
 #
 # Copyright:: 2020, The Authors, All Rights Reserved.
-powershell_script 'Install IIS' do
-    code 'Add-WindowsFeature Web-Server'
-    guard_interpreter :powershell_script
-    not_if "(Get-WindowsFeature -Name Web-Server).Installed"
-  end
-  
-  service 'w3svc' do
+windows_feature 'Web-Server' do
+  all true
+  action :install
+  install_method :windows_feature_powershell
+end
+service 'w3svc' do
     action [:enable, :start]
   end
   
